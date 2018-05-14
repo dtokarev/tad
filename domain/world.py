@@ -44,7 +44,7 @@ class MapTile:
 
     def get_enemy_difficulty(self) -> int:
         home_distance = self.get_home_distance()
-        if home_distance < 5:
+        if home_distance < 2:
             return 0
 
         dif = math.ceil(home_distance / 5)

@@ -20,7 +20,7 @@ class Player:
     @staticmethod
     def build():
         player = Player(name="Adam", age=20, favorite_foods=["bread"])
-        player.weapons.append(Weapon("dagger", "Old rusty dagger", 5))
+        player.weapons.append(Weapon("dagger", "Old rusty dagger", 1))
         player.stuff = ["item1", "gold(5)"]
         return player
 
@@ -39,6 +39,15 @@ class Player:
         new_coordinate = Coordinate(self.position.x + dx, self.position.y + dy)
         self.map.open_tile(new_coordinate)
         self.position = new_coordinate
+
+    def get_attack(self) -> int:
+        damage = sum(float(w.damage) for w in self.weapons)
+
+        return int(damage)
+
+    def is_alive(self):
+        return self.health > 0
+
 
 
 

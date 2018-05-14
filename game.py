@@ -1,4 +1,5 @@
 from domain.player import Player
+from service import game_service
 
 
 def play():
@@ -8,7 +9,6 @@ def play():
 
     while True:
         action = get_action()
-        print(player.get_current_tile())
 
         if action == "q":
             print("exiting")
@@ -23,6 +23,15 @@ def play():
             player.move(-1, 0)
         elif action == "d":
             player.move(1, 0)
+
+        print(player.get_current_tile())
+
+        game_service.explore_tile(player)
+
+        if not player.is_alive():
+            print("GAME OVER")
+            break
+
 
 
 def get_action() -> str:

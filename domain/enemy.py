@@ -12,10 +12,10 @@ class Enemy:
     def __str__(self):
         return self.name
 
-    def get_damage(self):
-        return random.randint(self.damage_range)
+    def get_damage(self) -> int:
+        return random.randint(*self.damage_range)
 
-    def get_average_damage(self):
+    def get_average_damage(self) -> float:
         return sum(self.damage_range) / 2
 
     def get_difficulty(self):
