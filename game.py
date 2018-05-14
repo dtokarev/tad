@@ -1,14 +1,14 @@
-from domain.player import Player
-from service import game_service
+from domain import player as pl
+from service import game_service, player_service
 
 
 def play():
     print("game started")
 
-    player = Player.build()
+    player = pl.build()
 
     while True:
-        action = get_action()
+        action = game_service.get_action("Your command: ")
 
         if action == "q":
             print("exiting")
@@ -17,25 +17,23 @@ def play():
             player.print_inventory()
         elif action == "s":
             player.move(0, 1)
+            game_service.explore_tile(player)
         elif action == "w":
             player.move(0, -1)
+            game_service.explore_tile(player)
         elif action == "a":
             player.move(-1, 0)
+            game_service.explore_tile(player)
         elif action == "d":
             player.move(1, 0)
-
-        print(player.get_current_tile())
-
-        game_service.explore_tile(player)
+            game_service.explore_tile(player)
+        elif action == "f":
+            player_service.eat(player)
 
         if not player.is_alive():
             print("GAME OVER")
             break
 
-
-
-def get_action() -> str:
-    return str(input("input command: ")).lower()
 
 if __name__ == "__main__":
     play()

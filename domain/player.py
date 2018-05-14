@@ -1,13 +1,13 @@
-from domain.item import Weapon
+from domain.item import Weapon, Food
 from domain.world import Map, Coordinate, MapTile
 
 
 class Player:
+    MAX_HEALTH = 100
 
-    def __init__(self, name, age, favorite_foods):
-        self.favorite_foods = favorite_foods
+    def __init__(self, name, age):
         self.level = 1
-        self.health = 100
+        self.health = Player.MAX_HEALTH
         self.name = name
         self.age = age
         self.map = Map()
@@ -16,13 +16,6 @@ class Player:
         self.food = []
         self.clothes = []
         self.stuff = []
-
-    @staticmethod
-    def build():
-        player = Player(name="Adam", age=20, favorite_foods=["bread"])
-        player.weapons.append(Weapon("dagger", "Old rusty dagger", 1))
-        player.stuff = ["item1", "gold(5)"]
-        return player
 
     def print_inventory(self):
         print("Inventory: ")
@@ -49,6 +42,13 @@ class Player:
         return self.health > 0
 
 
+def build():
+    player = Player(name="Adam", age=20)
+    player.weapons.append(Weapon("dagger", "Old rusty dagger", 1))
+    for i in range(5):
+        player.food.append(Food("Bread", 5))
+    player.stuff = ["item1", "gold(5)"]
+    return player
 
 
 
