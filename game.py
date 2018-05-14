@@ -8,7 +8,7 @@ def play():
 
     while True:
         action = get_action()
-        print(player.get_current_tile().get_info())
+        print(player.get_current_tile())
 
         if action == "q":
             print("exiting")

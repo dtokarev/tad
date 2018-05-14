@@ -1,7 +1,7 @@
 import random
+import math
 
-import config
-from service import enemy_service
+from domain import enemy
 
 
 class Coordinate:
@@ -19,31 +19,41 @@ class Coordinate:
 class MapTile:
     def __init__(self, coordinate: Coordinate):
         self.coordinate = coordinate
-        self.enemy_difficulty = MapTile.get_enemy_difficulty(coordinate)
         self.enemy = None
         self.loot = None
-
-        if random.random() < 0.7 and (coordinate.x + coordinate.y) > 5:
-            self.enemy = enemy_service.generate(self.enemy_difficulty)
-
-    @staticmethod
-    def get_actual_difficulty(coordinate: Coordinate) -> int:
-        return (abs(coordinate.x) + abs(coordinate.y)) / 10
-
-    @staticmethod
-    def get_enemy_difficulty(coordinate: Coordinate) -> int:
-        dif = MapTile.get_actual_difficulty(coordinate) + random.randint(-1, 1)
-        dif *= config.difficulty
-
-        return int(dif)
+        self.generate_enemy()
+        self.generate_loot()
 
     def get_info(self) -> dict:
         return {
             "position": self.coordinate,
             "enemy": self.enemy,
-            "difficulty": self.enemy_difficulty,
+            "difficulty": self.get_enemy_difficulty(),
             "loot": self.loot,
         }
+
+    def generate_enemy(self) -> None:
+        if random.random() < 0.7:
+            self.enemy = enemy.generate(self.get_enemy_difficulty())
+
+    def generate_loot(self):
+        pass
+
+    def get_home_distance(self) -> int:
+        return abs(self.coordinate.x) + abs(self.coordinate.y)
+
+    def get_enemy_difficulty(self) -> int:
+        home_distance = self.get_home_distance()
+        if home_distance < 5:
+            return 0
+
+        dif = math.ceil(home_distance / 5)
+        dif += random.randint(-1, int(dif / 5))
+
+        return int(dif)
+
+    def __str__(self):
+        return str(self.get_info())
 
 
 class Map:
@@ -64,6 +74,7 @@ class Map:
             return None
 
         return self.map.get(coordinate)
+
 
 
 

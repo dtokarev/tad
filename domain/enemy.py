@@ -1,4 +1,5 @@
 import random
+from typing import Optional
 
 
 class Enemy:
@@ -51,5 +52,13 @@ class GiantSpider(Enemy):
         self.damage_range = 4, 6
 
 
+def generate(difficulty: int) -> Optional["Enemy"]:
+    enemies = [Wolf(), Spider(), GiantSpider()]
 
+    if difficulty < 1:
+        return None
+
+    available = [e for e in enemies if (difficulty + 1) > e.get_difficulty() > (difficulty - 1)]
+
+    return random.sample(available, 1)[0] if available else None
 
