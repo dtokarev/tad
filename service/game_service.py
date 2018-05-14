@@ -1,5 +1,6 @@
 from domain.enemy import Enemy
 from domain.player import Player
+from domain.world import Coordinate
 
 
 def get_action(message: str) -> str:
@@ -29,3 +30,16 @@ def attack_tile(player: Player, enemy: Enemy) -> None:
 
     winner = player if player.is_alive() else enemy
     print("{} won, {} hp left".format(winner.name, winner.health))
+
+
+def print_nearby_map(player: Player):
+    _visible_range = 3
+    loc = player.get_current_tile().coordinate
+    for x in range(loc.x-_visible_range, loc.x+_visible_range+1):
+        for y in range(loc.y - _visible_range, loc.y + _visible_range+1):
+            repr = player.map.get_tile_representation(loc)
+            print("|{}".format(repr), end="")
+        print()
+        print("-"*_visible_range*2*7, end="")
+        print()
+

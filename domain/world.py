@@ -75,6 +75,17 @@ class Map:
 
         return self.map.get(coordinate)
 
+    def get_tile_representation(self, coordinates: Coordinate, current_loc: Coordinate = None):
+        tile = self.get_tile(coordinates)
+
+        if not tile:
+            return ""
+        elif coordinates == current_loc:
+            return "O"
+        elif tile.enemy:
+            return "E" if tile.enemy.is_alive() else "D"
+
+        return "U"
 
 
 

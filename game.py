@@ -29,6 +29,8 @@ def play():
             game_service.explore_tile(player)
         elif action == "f":
             player_service.eat(player)
+        elif action == "m":
+            game_service.print_nearby_map(player)
 
         if not player.is_alive():
             print("GAME OVER")

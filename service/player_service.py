@@ -3,32 +3,27 @@ from service import game_service
 
 
 def eat(player: Player):
-    food_list = player.food
-
-    if not food_list:
+    if not player.food:
         print("No food")
         return
     if player.health >= Player.MAX_HEALTH:
         print("Your health is full")
         return
 
-    for k, f in enumerate(food_list):
+    for k, f in enumerate(player.food):
         print("{}: {} heals {}".format(k, f.name, f.heal_value))
 
     selected = int(game_service.get_action("Select food to eat: "))
 
     try:
-        food = food_list[selected]
-    except IndexError:
+        food = player.food[selected]
+    except (IndexError, ValueError):
         print("Food not found")
         return
 
-    food_list.remove(food)
+    player.food.remove(food)
 
-    player.health += food.heal_value
-
-    if player.health > Player.MAX_HEALTH:
-        player.health = Player.MAX_HEALTH
+    player.health = min(Player.MAX_HEALTH, food.heal_value + player.health)
 
     print("Your health {}".format(player.health))
 
