@@ -26,9 +26,13 @@ class MapTile:
     def __init__(self, coordinate: Coordinate):
         self.coordinate = coordinate
         self.enemy = None
-        self.loot = None
         self.generate_enemy()
+
+        self.loot = None
         self.generate_loot()
+
+        self.gold = 0
+        self.generate_gold()
         self.is_visited = False
 
     def get_info(self) -> dict:
@@ -42,6 +46,14 @@ class MapTile:
     def generate_enemy(self) -> None:
         if random.random() < 0.7:
             self.enemy = enemy.generate(self.get_enemy_difficulty())
+
+    def generate_gold(self) -> None:
+        if random.random() < 0.7:
+            min_val = math.floor(self.get_home_distance() / 2)
+            max_val = math.ceil((self.get_home_distance() + 1) / 5)
+            max_val = min_val if max_val < min_val else max_val
+
+            self.gold = random.randint(min_val, max_val)
 
     def generate_loot(self):
         pass

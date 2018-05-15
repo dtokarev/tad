@@ -9,10 +9,13 @@ def get_action(message: str) -> str:
 
 def explore_tile(player: Player):
     tile = player.get_current_tile()
-    print(tile)
-    enemy = tile.enemy
     tile.is_visited = True
+    print(tile)
 
+    player.gold += tile.gold
+    tile.gold = 0
+
+    enemy = tile.enemy
     if enemy and enemy.is_alive:
         attack_tile(player, enemy)
 

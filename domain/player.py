@@ -12,6 +12,7 @@ class Player:
         self.age = age
         self.map = Map()
         self.position = self.map.initial_coordinate
+        self.gold = 1
         self.weapons = []
         self.food = []
         self.clothes = []
@@ -19,6 +20,7 @@ class Player:
 
     def print_inventory(self):
         print("Inventory: ")
+        print("Gold: {}".format(self.gold))
         for item in self.get_inventory():
             print(item)
 
@@ -44,7 +46,7 @@ class Player:
 
 def build():
     player = Player(name="Adam", age=20)
-    player.weapons.append(Weapon("dagger", "Old rusty dagger", 1))
+    player.weapons.append(Weapon("dagger", "Old rusty dagger", 1, 3))
     for i in range(5):
         player.food.append(Food("Bread", 5))
     player.stuff = ["item1", "gold(5)"]
