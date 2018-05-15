@@ -8,8 +8,10 @@ def get_action(message: str) -> str:
 
 
 def explore_tile(player: Player):
-    print(player.get_current_tile())
-    enemy = player.get_current_tile().enemy
+    tile = player.get_current_tile()
+    print(tile)
+    enemy = tile.enemy
+    tile.is_visited = True
 
     if enemy and enemy.is_alive:
         attack_tile(player, enemy)
@@ -33,20 +35,14 @@ def attack_tile(player: Player, enemy: Enemy) -> None:
 
 
 def print_nearby_map(player: Player):
-    _visible_range = 1
+    _visible_range = 3
     current_loc = player.get_current_tile().coordinate
 
-    line_last = ""
     for y in range(current_loc.y+_visible_range, current_loc.y-_visible_range-1, -1):
-        line1 = ""
-        line2 = ""
+        line = ""
         for x in range(current_loc.x - _visible_range, current_loc.x + _visible_range+1):
             target_loc = Coordinate(x, y)
-            tile_repr = player.map.get_tile_representation(target_loc, current_loc)
-            line1 += "|---"
-            line2 += "| {} ".format(tile_repr)
-        print(line1+"|")
-        print(line2+"|")
-        line_last = line1
-    print(line_last + "|")
+            tile_repr, color = player.map.get_tile_representation(target_loc, current_loc)
+            line += "[{}]".format(color + tile_repr + '\033[0m')
+        print(line)
 

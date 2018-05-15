@@ -29,6 +29,7 @@ class MapTile:
         self.loot = None
         self.generate_enemy()
         self.generate_loot()
+        self.is_visited = False
 
     def get_info(self) -> dict:
         return {
@@ -65,8 +66,10 @@ class MapTile:
 class Map:
     def __init__(self):
         self.initial_coordinate = Coordinate(0, 0)
+        init_tile = MapTile(self.initial_coordinate)
+        init_tile.is_visited = True
         self.map = {
-            self.initial_coordinate: MapTile(self.initial_coordinate)
+            self.initial_coordinate: init_tile
         }
 
     def open_tile(self, coordinate: Coordinate):
@@ -84,13 +87,13 @@ class Map:
         tile = self.get_tile(target_loc)
 
         if not tile:
-            return "U"
+            return " ", "\033[0m"
         elif target_loc == current_loc:
-            return "O"
+            return "O", "\033[01;33m"
         elif tile.enemy:
-            return "E" if tile.enemy.is_alive() else "D"
+            return ("E", "\033[00;31m") if tile.enemy.is_alive() else ("D", "\033[01;33m")
 
-        return " "
+        return "_", "\033[01;33m"
 
 
 

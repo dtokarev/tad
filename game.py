@@ -18,15 +18,19 @@ def play():
         elif action == "s":
             player.move(0, -1)
             game_service.explore_tile(player)
+            game_service.print_nearby_map(player)
         elif action == "w":
             player.move(0, 1)
             game_service.explore_tile(player)
+            game_service.print_nearby_map(player)
         elif action == "a":
             player.move(-1, 0)
             game_service.explore_tile(player)
+            game_service.print_nearby_map(player)
         elif action == "d":
             player.move(1, 0)
             game_service.explore_tile(player)
+            game_service.print_nearby_map(player)
         elif action == "f":
             player_service.eat(player)
         elif action == "m":
