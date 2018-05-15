@@ -99,13 +99,13 @@ class Map:
         tile = self.get_tile(target_loc)
 
         if not tile:
-            return " ", "\033[0m"
+            return "█", "\033[1;37m"
         elif target_loc == current_loc:
-            return "O", "\033[01;33m"
+            return "◎", "\033[01;33m"
         elif tile.enemy:
             return ("E", "\033[00;31m") if tile.enemy.is_alive() else ("D", "\033[01;33m")
 
-        return "_", "\033[01;33m"
+        return "░", "\033[01;33m"
 
 
 
