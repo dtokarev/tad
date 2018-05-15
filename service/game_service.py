@@ -33,13 +33,20 @@ def attack_tile(player: Player, enemy: Enemy) -> None:
 
 
 def print_nearby_map(player: Player):
-    _visible_range = 3
-    loc = player.get_current_tile().coordinate
-    for x in range(loc.x-_visible_range, loc.x+_visible_range+1):
-        for y in range(loc.y - _visible_range, loc.y + _visible_range+1):
-            repr = player.map.get_tile_representation(loc)
-            print("|{}".format(repr), end="")
-        print()
-        print("-"*_visible_range*2*7, end="")
-        print()
+    _visible_range = 1
+    current_loc = player.get_current_tile().coordinate
+
+    line_last = ""
+    for y in range(current_loc.y+_visible_range, current_loc.y-_visible_range-1, -1):
+        line1 = ""
+        line2 = ""
+        for x in range(current_loc.x - _visible_range, current_loc.x + _visible_range+1):
+            target_loc = Coordinate(x, y)
+            tile_repr = player.map.get_tile_representation(target_loc, current_loc)
+            line1 += "|---"
+            line2 += "| {} ".format(tile_repr)
+        print(line1+"|")
+        print(line2+"|")
+        line_last = line1
+    print(line_last + "|")
 

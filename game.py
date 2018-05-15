@@ -16,10 +16,10 @@ def play():
         elif action in ["i"]:
             player.print_inventory()
         elif action == "s":
-            player.move(0, 1)
+            player.move(0, -1)
             game_service.explore_tile(player)
         elif action == "w":
-            player.move(0, -1)
+            player.move(0, 1)
             game_service.explore_tile(player)
         elif action == "a":
             player.move(-1, 0)

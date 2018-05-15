@@ -9,8 +9,14 @@ class Coordinate:
         self.y = y
         self.x = x
 
+    def __hash__(self, *args, **kwargs):
+        return hash((self.x, self.y))
+
+    def __eq__(self, other):
+        return (self.x, self.y) == (other.x, other.y)
+
     def __str__(self):
-        return "Current position: {}:{}".format(self.x, self.y)
+        return "{}:{}".format(self.x, self.y)
 
     def __repr__(self):
         return self.__str__()
@@ -59,7 +65,9 @@ class MapTile:
 class Map:
     def __init__(self):
         self.initial_coordinate = Coordinate(0, 0)
-        self.map = {self.initial_coordinate: MapTile(self.initial_coordinate)}
+        self.map = {
+            self.initial_coordinate: MapTile(self.initial_coordinate)
+        }
 
     def open_tile(self, coordinate: Coordinate):
         if coordinate in self.map:
@@ -70,22 +78,19 @@ class Map:
         return new_tile
 
     def get_tile(self, coordinate: Coordinate):
-        if coordinate not in self.map:
-            return None
-
         return self.map.get(coordinate)
 
-    def get_tile_representation(self, coordinates: Coordinate, current_loc: Coordinate = None):
-        tile = self.get_tile(coordinates)
+    def get_tile_representation(self, target_loc: Coordinate, current_loc: Coordinate = None):
+        tile = self.get_tile(target_loc)
 
         if not tile:
-            return ""
-        elif coordinates == current_loc:
+            return "U"
+        elif target_loc == current_loc:
             return "O"
         elif tile.enemy:
             return "E" if tile.enemy.is_alive() else "D"
 
-        return "U"
+        return " "
 
 
 
